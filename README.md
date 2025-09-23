@@ -21,7 +21,7 @@ This project demonstrates the implementation of OOP principles in JavaScript by 
 - **Change Management**: Returns change when payment exceeds maximum time
 - **Input Validation**: Validates user input and provides helpful error messages
 
-## 📝 License
+## License
 
 This project is for educational purposes as part of the EBAC Front-end Development Course.
 
