@@ -1,83 +1,85 @@
-class parquimetro {
-  constructor(valor = 0, tempo = 0, troco = 0) {
-    this.valor = valor;
-    this.tempo = tempo;
-    this.troco = troco;
+class ParkingMeter {
+  constructor(value = 0, time = 0, change = 0) {
+    this.value = value;
+    this.time = time;
+    this.change = change;
   }
 
-  validarValor(valorPago) {
-    if (isNaN(valorPago) || valorPago <= 0) {
-      alert("Digite um valor valido maior que zero");
-      this.limparResultados();
+  validateValue(paidAmount) {
+    if (isNaN(paidAmount) || paidAmount <= 0) {
+      alert("Please enter a valid value greater than zero");
+      this.clearResults();
       return false;
     }
 
-    if (valorPago < 1) {
-      alert("Valor invalido! Voce precisa de mais R$ " + (1 - valorPago).toFixed(2) + " para o minimo");
-      this.limparResultados();
+    if (paidAmount < 1) {
+      alert("Invalid value! You need AUD $" + (1 - paidAmount).toFixed(2) + " more for the minimum");
+      this.clearResults();
       return false;
     }
 
     return true;
   }
 
-  limparResultados() {
-    document.getElementById("resultadoTempo").textContent = " ";
-    document.getElementById("resultadoTroco").textContent = " ";
+  clearResults() {
+    document.getElementById("timeResult").textContent = " ";
+    document.getElementById("changeResult").textContent = " ";
   }
 
-  calcularTempo(valorPago) {
-    this.troco = 0;
+  calculateTime(paidAmount) {
+    this.change = 0;
 
-    if (valorPago >= 1 && valorPago < 1.75) {
-      this.tempo = 30;
-      this.troco = valorPago - 1;
-    } else if (valorPago >= 1.75 && valorPago < 3) {
-      this.tempo = 60;
-      this.troco = valorPago - 1.75;
-    } else if (valorPago >= 3) {
-      this.tempo = 120;
+    if (paidAmount >= 1 && paidAmount < 1.75) {
+      const extraValue = paidAmount - 1;
+      const extraTime = (extraValue / 0.75) * 30;
+      this.time = 30 + extraTime;
+    } else if (paidAmount >= 1.75 && paidAmount < 3) {
+      const extraValue = paidAmount - 1.75;
+      const extraTime = (extraValue / 1.25) * 60;
+      this.time = 60 + extraTime;
+    } else if (paidAmount >= 3) {
+      this.time = 120;
     }
 
-    if (valorPago > 3) {
-      this.troco = valorPago - 3;
+    if (paidAmount > 3) {
+      this.change = paidAmount - 3;
     }
   }
 
-  mostrarResultados() {
-    document.getElementById("resultadoTempo").textContent = "Voce tem " + Math.floor(this.tempo) + " minutos.";
+  showResults() {
+    document.getElementById("timeResult").textContent = "You have " + Math.floor(this.time) + " minutes.";
 
-    if (this.troco > 0) {
-      document.getElementById("resultadoTroco").textContent = "Seu troco é R$ " + this.troco.toFixed(2);
+    if (this.change > 0) {
+      document.getElementById("changeResult").textContent = "Your change is AUD $" + this.change.toFixed(2);
     } else {
-      document.getElementById("resultadoTroco").textContent = "";
+      document.getElementById("changeResult").textContent = "";
     }
   }
 
-  processar(valorPago) {
-    this.tempo = 0;
-    this.troco = 0;
+  process(paidAmount) {
+    this.time = 0;
+    this.change = 0;
 
-    if (!this.validarValor(valorPago)) {
+    if (!this.validateValue(paidAmount)) {
       return;
     }
 
-    this.calcularTempo(valorPago);
+    this.calculateTime(paidAmount);
 
-    this.mostrarResultados();
+    this.showResults();
   }
 }
 
-const meuParquimetro = new parquimetro();
+const myParkingMeter = new ParkingMeter();
 
-const botao = document.getElementById("calcularBtn");
+const button = document.getElementById("calculateBtn");
 
-botao.addEventListener("click", function () {
-  let valorDigitado = document.getElementById("valorPago").value;
+button.addEventListener("click", function () {
+  let typedValue = document.getElementById("paidValue").value;
 
-  valorDigitado = valorDigitado.replace(",", ".");
+  typedValue = typedValue.replace(",", ".");
 
-  const valorPago = parseFloat(valorDigitado);
+  const paidAmount = parseFloat(typedValue);
 
-  meuParquimetro.processar(valorPago);
+  myParkingMeter.process(paidAmount);
 });
