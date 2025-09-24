@@ -27,23 +27,21 @@ class parquimetro {
   }
 
   calcularTempo(valorPago) {
-    let valorExtra, valorMinuto, tempoExtra;
-    if (valorPago < 1.75) {
-      this.tempo = 30;
-      valorExtra = valorPago - 1;
-      valorMinuto = 1 / 30;
-      tempoExtra = valorExtra / valorMinuto;
-      this.tempo = Math.floor(this.tempo + tempoExtra);
-    } else if (valorPago < 3) {
-      this.tempo = 60;
-      valorExtra = valorPago - 1.75;
-      valorMinuto = 1.75 / 60;
-      tempoExtra = valorExtra / valorMinuto;
-      this.tempo = Math.floor(this.tempo + tempoExtra);
-    } else if (valorPago == 3) {
+    this.troco = 0;
+
+    if (valorPago >= 1 && valorPago < 1.75) {
+      const valorExtra = valorPago - 1;
+      const tempoExtra = (valorExtra / 0.75) * 30;
+      this.tempo = 30 + tempoExtra;
+    } else if (valorPago >= 1.75 && valorPago < 3) {
+      const valorExtra = valorPago - 1.75;
+      const tempoExtra = (valorExtra / 1.25) * 60;
+      this.tempo = 60 + tempoExtra;
+    } else if (valorPago >= 3) {
       this.tempo = 120;
-    } else if (valorPago > 3) {
-      this.tempo = 120;
+    }
+
+    if (valorPago > 3) {
       this.troco = valorPago - 3;
     }
   }
