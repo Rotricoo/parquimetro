@@ -31,8 +31,10 @@ class parquimetro {
 
     if (valorPago >= 1 && valorPago < 1.75) {
       this.tempo = 30;
+      this.troco = valorPago - 1;
     } else if (valorPago >= 1.75 && valorPago < 3) {
       this.tempo = 60;
+      this.troco = valorPago - 1.75;
     } else if (valorPago >= 3) {
       this.tempo = 120;
     }
